@@ -130,9 +130,10 @@ export const useAccessStore = createPersistStore(
       fetch("/api/config", {
         method: "post",
         body: null,
-        headers: {
-          ...getHeaders(),
-        },
+        // credentials:"include",
+        // headers: {
+        //   ...getHeaders(),
+        // },
       })
         .then((res) => res.json())
         .then((res) => {
