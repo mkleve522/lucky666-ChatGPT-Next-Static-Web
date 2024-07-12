@@ -127,8 +127,8 @@ export const useAccessStore = createPersistStore(
     fetch() {
       if (fetchState > 0) return;
       fetchState = 1;
-      fetch("/api/config", {
-        method: "post",
+      fetch(`/static_config?_=${Math.random()}`, {
+        method: "get",
         body: null,
         // credentials:"include",
         // headers: {
