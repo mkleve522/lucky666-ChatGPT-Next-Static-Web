@@ -5,7 +5,6 @@ import {
   ServiceProvider,
   StoreKey,
 } from "../constant";
-import { getHeaders } from "../client/api";
 import { getClientConfig } from "../config/client";
 import { createPersistStore } from "../utils/store";
 import { ensure } from "../utils/clone";
@@ -120,6 +119,9 @@ const DEFAULT_ACCESS_STATE = {
   disableFastLink: false,
   customModels: "",
   defaultModel: "",
+
+  // tts config
+  edgeTTSVoiceName: "zh-CN-YunxiNeural",
 };
 
 export const useAccessStore = createPersistStore(
@@ -130,6 +132,12 @@ export const useAccessStore = createPersistStore(
       this.fetch();
 
       return get().needCode;
+    },
+
+    edgeVoiceName() {
+      this.fetch();
+
+      return get().edgeTTSVoiceName;
     },
 
     isValidOpenAI() {
@@ -205,8 +213,8 @@ export const useAccessStore = createPersistStore(
         .then((res) => {
           // Set default model from env request
           let defaultModel = res.defaultModel ?? "";
-          DEFAULT_CONFIG.modelConfig.model =
-            defaultModel !== "" ? defaultModel : "gpt-3.5-turbo";
+          if (defaultModel !== "")
+            DEFAULT_CONFIG.modelConfig.model = defaultModel;
           return res;
         })
         .then((res: DangerConfig) => {
